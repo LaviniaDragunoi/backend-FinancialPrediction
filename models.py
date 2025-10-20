@@ -42,7 +42,8 @@ class FinancialData:
 
             if not date_series.index.is_monotonic_increasing:
                 date_series = date_series.sort_index()
-                print("Warnning: Index was sorted for cronological order")
+                print("Warning: Index was sorted for chronological order")
+            else: print('Success' + date_series[:5])
             return date_series
 
         except KeyError:

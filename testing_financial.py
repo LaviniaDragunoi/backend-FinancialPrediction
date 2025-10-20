@@ -16,7 +16,7 @@ class MyTestCase(unittest.TestCase):
         assert not initial_df, "Failed test: DataFrame wasn't loaded"
         print("Test 1(_load_data): Data loaded successful")
 
-        # assert isinstance(clean_df.index, pd.DatetimeIndex), "test failed: Index is not of type DateTimeIndex"
+        assert isinstance(initial_df.index, pd.DatetimeIndex), "test failed: Index is not of type DateTimeIndex"
 
     if __name__ == "__main__":
             test_financial_data()
