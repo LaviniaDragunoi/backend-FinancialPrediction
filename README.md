@@ -9,4 +9,4 @@ I'll keep this doc to document all the steps that I'll follow while working on t
 
 
 Tools that I worked with:
-AI: Gemini - free version
+AI: Gemini - free version. The discussion can be followed here: https://gemini.google.com/share/b22fa762a413
