@@ -20,5 +20,5 @@ def get_raw_data(connector: MarketAPIConnector, ticker: str, interval: str) -> p
 
     df.index = pd.to_datetime(df.index)
     df = df[["open", "high", "low", "close", "volume"]]
-    df = df.sort_index(inplace=True)
+    df.sort_index(inplace=True)
     return df

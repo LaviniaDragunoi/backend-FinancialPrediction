@@ -2,13 +2,14 @@ import requests
 from typing import Dict, Any, Optional
 
 class MarketAPIConnector:
-    def __init__(self, api_key: str, base_url:str):
+    BASE_URL = "https://www.alphavantage.co"
+
+    def __init__(self, api_key: str):
         self.api_key = api_key
-        self.base_url = base_url
         self.session = requests.Session()
 
-    def _make_request(self, endpoint, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        url = f"{self.base_url}/{endpoint}"
+    def _make_request(self, endpoint: str, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        url = f"{self.BASE_URL}/{endpoint}"
         query_params = params.copy() if params else {}
         query_params['apikey'] = self.api_key
 
@@ -25,13 +26,12 @@ class MarketAPIConnector:
             raise
 
     def fetch_data(self, ticker: str, interval: str, function: str = "TIME_SERIES_INTRADAY") -> Dict[str, Any]:
-        endpoint = f"ticker/{ticker}/{interval}"
         params = {
             'function': function,
             'symbol': ticker,
             'interval': interval
         }
 
-        raw_data = self._make_request(endpoint, params)
+        raw_data = self._make_request('query', params)
 
         return raw_data
