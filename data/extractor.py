@@ -18,6 +18,10 @@ def get_raw_data(connector: MarketAPIConnector, ticker: str, interval: str) -> p
         "5. volume": "volume"
     })
 
+    # --- FIX: Convert all columns to a numeric type ---
+    for col in ["open", "high", "low", "close", "volume"]:
+        df[col] = pd.to_numeric(df[col], errors='coerce')
+
     df.index = pd.to_datetime(df.index)
     df = df[["open", "high", "low", "close", "volume"]]
     df.sort_index(inplace=True)

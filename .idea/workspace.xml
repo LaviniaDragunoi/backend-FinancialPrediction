@@ -4,21 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8563e37-d7d1-4687-8076-7a0c901c6fdc" name="Changes" comment="wip">
-      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/financial_prediction.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/data_pipeline_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/backend-FinancialPrediction.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+    <list default="true" id="d8563e37-d7d1-4687-8076-7a0c901c6fdc" name="Changes" comment="Added functional POSt and GET calls">
+      <change afterPath="$PROJECT_DIR$/gemini.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/model_trainer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/connector.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/connector.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/extractor.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/extractor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/processor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_data.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +76,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.intellij.pycharm.community.ide.impl.configuration.PythonContentEntriesConfigurable&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -165,9 +159,9 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.test_data" />
       <item itemvalue="Python.conftest" />
       <item itemvalue="Python.models" />
-      <item itemvalue="Python.test_data" />
     </list>
     <recent_temporary>
       <list>
@@ -199,6 +193,9 @@
       <workItem from="1761058959572" duration="294000" />
       <workItem from="1761059271395" duration="144000" />
       <workItem from="1761117224720" duration="6816000" />
+      <workItem from="1761142601049" duration="639000" />
+      <workItem from="1761222001686" duration="46000" />
+      <workItem from="1761222054325" duration="1905000" />
     </task>
     <task id="LOCAL-00001" summary="wip">
       <option name="closed" value="true" />
@@ -224,7 +221,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760966270737</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Added functional POSt and GET calls">
+      <option name="closed" value="true" />
+      <created>1761142626827</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1761142626827</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -232,7 +237,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="wip" />
-    <option name="LAST_COMMIT_MESSAGE" value="wip" />
+    <MESSAGE value="Added functional POSt and GET calls" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added functional POSt and GET calls" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/financial_prediction$test_data.coverage" NAME="test_data Coverage Results" MODIFIED="1761139608336" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />

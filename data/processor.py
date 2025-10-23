@@ -6,7 +6,7 @@ from typing import Tuple
 def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     """Fills missing values and drops any remaining NaNs."""
     # Forward-fill handles missing values in the middle of the data
-    df_cleaned = df.fillna(method='ffill')
+    df_cleaned = df.ffill() # Changed from fillna(method='ffill')
     # Drop any NaNs that might exist at the very beginning of the dataset
     return df_cleaned.dropna()
 
