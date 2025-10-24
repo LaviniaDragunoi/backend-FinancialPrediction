@@ -1,67 +1,60 @@
 import os
 import sys
 import pandas as pd
-import numpy as np # Import numpy
+import numpy as np
 from dotenv import load_dotenv
+from typing import Tuple
 
 # Add the project root to the Python path
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
-from data.connector import MarketAPIConnector
-from data.extractor import get_raw_data
-from data.processor import clean_data, create_sequences
+from data.connector import AlphaVantageConnector
+from data.extractor import DataExtractor
+from data.processor import DataProcessor
 
 # Load environment variables from .env file
 load_dotenv()
 
-def run_data_pipeline(ticker: str, interval: str, window_size: int) -> (np.ndarray, np.ndarray, pd.DataFrame):
-    """
-    Orchestrates the data processing pipeline.
+class DataPipelineService:
+    def __init__(self, api_key: str, use_local_data: bool = False, local_data_path: str = None):
+        if not use_local_data and (not api_key or api_key == "YOUR_API_KEY"):
+            raise ValueError("API key not found. Please set the ALPHA_VANTAGE_API_KEY in your .env file.")
+        self.connector = AlphaVantageConnector(api_key, use_local_data, local_data_path)
 
-    1. Fetches raw data using the MarketAPIConnector.
-    2. Cleans the raw data.
-    3. Creates sequences for machine learning.
+    def run(self, ticker: str, interval: str, window_size: int) -> Tuple[np.ndarray, np.ndarray, pd.DataFrame]:
+        try:
+            print(f"Fetching raw data for {ticker}...")
+            raw_data_dict = self.connector.fetch_time_series_intraday(ticker, interval)
+            extractor = DataExtractor(raw_data_dict)
+            raw_df = extractor.extract_time_series_to_dataframe()
+            print("Raw data fetched and extracted successfully.")
 
-    Args:
-        ticker: The stock ticker symbol (e.g., "AAPL").
-        interval: The time interval for the data (e.g., "60min").
-        window_size: The size of the sliding window for creating sequences.
+            print("Cleaning and processing data...")
+            processor = DataProcessor(raw_df)
+            cleaned_df = processor.clean_data()
+            print("Data cleaned successfully.")
 
-    Returns:
-        A tuple containing the feature sequences (X), target sequences (y), and the cleaned DataFrame.
-    """
-    api_key = os.getenv("ALPHA_VANTAGE_API_KEY")
-    if not api_key or api_key == "YOUR_API_KEY":
-        raise ValueError("API key not found. Please set the ALPHA_VANTAGE_API_KEY in your .env file.")
+            print("Creating sequences...")
+            X, y = DataProcessor.create_sequences(cleaned_df, window_size)
+            print("Sequences created successfully.")
 
-    connector = MarketAPIConnector(api_key)
-
-    # 1. Extract
-    print(f"Fetching raw data for {ticker}...")
-    raw_data = get_raw_data(connector, ticker, interval)
-    print("Raw data fetched successfully.")
-
-    # 2. Process
-    print("Cleaning data...")
-    cleaned_data = clean_data(raw_data)
-    print("Data cleaned successfully.")
-
-    # 3. Create Sequences
-    print("Creating sequences...")
-    X, y = create_sequences(cleaned_data, window_size)
-    print("Sequences created successfully.")
-
-    return X, y, cleaned_data
+            return X, y, cleaned_df
+        finally:
+            self.connector.close()
 
 if __name__ == '__main__':
-    # Example usage of the data pipeline service
     TICKER = "IBM"
     INTERVAL = "60min"
     WINDOW_SIZE = 10
+    USE_LOCAL_DATA = True # Set to True to use the sample CSV
+    LOCAL_DATA_PATH = os.path.join(os.path.dirname(__file__), '..', 'data', 'sample_data.csv')
 
     try:
-        features, targets, cleaned_df = run_data_pipeline(TICKER, INTERVAL, WINDOW_SIZE)
+        api_key = os.getenv("ALPHA_VANTAGE_API_KEY")
+        pipeline = DataPipelineService(api_key, use_local_data=USE_LOCAL_DATA, local_data_path=LOCAL_DATA_PATH)
+        features, targets, cleaned_df = pipeline.run(TICKER, INTERVAL, WINDOW_SIZE)
+
         print(f"\nPipeline finished successfully!")
         print(f"Features shape: {features.shape}")
         print(f"Targets shape: {targets.shape}")

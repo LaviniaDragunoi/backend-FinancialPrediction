@@ -1,28 +1,28 @@
 import pandas as pd
-from .connector import MarketAPIConnector
 from typing import Dict, Any
 
-def get_raw_data(connector: MarketAPIConnector, ticker: str, interval: str) -> pd.DataFrame:
-    raw_dict: Dict[str, Any] = connector.fetch_data(ticker, interval)
-    time_series_key = next((key for key in raw_dict.keys() if "Time Series" in key), None)
-    if not time_series_key or not raw_dict.get(time_series_key):
-        raise ValueError("Could not find time series data in the API response.")
+class DataExtractor:
+    def __init__(self, raw_data: Dict[str, Any]):
+        self.raw_data = raw_data
 
-    df = pd.DataFrame.from_dict(raw_dict[time_series_key], orient="index")
+    def extract_time_series_to_dataframe(self) -> pd.DataFrame:
+        time_series_key = next((key for key in self.raw_data.keys() if "Time Series" in key), None)
+        if not time_series_key or not self.raw_data.get(time_series_key):
+            raise ValueError("Could not find time series data in the API response.")
 
-    df = df.rename(columns={
-        "1. open": "open",
-        "2. high": "high",
-        "3. low": "low",
-        "4. close": "close",
-        "5. volume": "volume"
-    })
+        df = pd.DataFrame.from_dict(self.raw_data[time_series_key], orient="index")
 
-    # --- FIX: Convert all columns to a numeric type ---
-    for col in ["open", "high", "low", "close", "volume"]:
-        df[col] = pd.to_numeric(df[col], errors='coerce')
+        df = df.rename(columns={
+            "1. open": "open",
+            "2. high": "high",
+            "3. low": "low",
+            "4. close": "close",
+            "5. volume": "volume"
+        })
 
-    df.index = pd.to_datetime(df.index)
-    df = df[["open", "high", "low", "close", "volume"]]
-    df.sort_index(inplace=True)
-    return df
+        for col in ["open", "high", "low", "close", "volume"]:
+            df[col] = pd.to_numeric(df[col], errors='coerce')
+
+        df.index = pd.to_datetime(df.index)
+        df.sort_index(inplace=True)
+        return df
